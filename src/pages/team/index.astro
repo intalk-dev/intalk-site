@@ -1,0 +1,95 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import '../../styles/global.css';
+
+type TeamMember = {
+  name: string;
+  role: string;
+  icon: string;
+  desc: string;
+};
+
+const members: TeamMember[] = [
+  { name: 'Member 1', role: 'Lead', icon: 'person', desc: '팀 리드. 프로젝트 방향 설정 및 운영 총괄.' },
+  { name: 'Member 2', role: 'Builder', icon: 'code', desc: '개발 및 시스템 구축 담당.' },
+  { name: 'Member 3', role: 'Builder', icon: 'design_services', desc: '디자인 및 사용자 경험 담당.' },
+];
+---
+<Layout title="팀소개 - INTALK">
+  <!-- Hero -->
+  <section class="relative pt-24 md:pt-32 pb-16 md:pb-24 px-6 md:px-12 max-w-screen-2xl mx-auto overflow-hidden">
+    <div class="flex flex-col md:flex-row items-end gap-12 border-l-2 border-slate-200 dark:border-[#353437] pl-8">
+      <div class="max-w-4xl">
+        <h1 class="font-headline text-5xl md:text-7xl lg:text-8xl font-light tracking-tighter leading-[1.1] text-black dark:text-white mb-8">
+          The Team Behind<br/>
+          <span class="font-extrabold italic text-black bg-[#FBE830] px-2 inline-block mt-4">INTALK</span>
+        </h1>
+        <p class="text-lg md:text-xl text-slate-500 dark:text-gray-400 font-light max-w-2xl leading-relaxed">
+          10배의 몰입과 멈추지 않는 실행으로,<br/>고객을 팬으로 만드는 인톡의 광적인 도전.
+        </p>
+      </div>
+      <div class="hidden lg:block pb-4">
+        <div class="flex items-center gap-4 text-xs uppercase tracking-[0.4em] text-slate-400 dark:text-gray-500" style="writing-mode: vertical-rl;">
+          <span>Established 2026</span>
+          <div class="w-px h-24 bg-slate-200 dark:bg-[#353437]"></div>
+          <span>Seoul Based</span>
+        </div>
+      </div>
+    </div>
+    <div class="absolute -right-24 top-0 w-96 h-96 bg-[#FBE830]/10 rounded-full blur-[120px] pointer-events-none"></div>
+  </section>
+
+  <!-- Team Grid -->
+  <section class="px-6 md:px-12 py-16 md:py-24 max-w-screen-2xl mx-auto">
+    <div class="mb-16 md:mb-20 flex flex-col md:flex-row justify-between items-baseline gap-4">
+      <div>
+        <h2 class="text-xs font-bold uppercase tracking-widest text-black dark:text-white border-l-4 border-[#FBE830] pl-4 mb-2">Our Team</h2>
+        <p class="text-slate-500 dark:text-gray-400 text-sm font-medium pl-5">INTALK을 만들어가는 사람들.</p>
+      </div>
+      <div class="hidden md:flex items-center gap-8 flex-1">
+        <div class="h-px flex-grow bg-slate-200 dark:bg-[#353437] mx-8"></div>
+        <div class="text-slate-400 dark:text-gray-500 text-xs font-mono whitespace-nowrap">{String(members.length).padStart(2, '0')} MEMBERS</div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {members.map((member) => (
+        <div class="bg-white dark:bg-[#131315] group transition-all duration-500 hover:shadow-xl p-6 md:p-8 border border-slate-100 dark:border-[#353437] hover:border-[#FBE830]/50">
+          <div class="w-20 h-20 mx-auto mb-6 overflow-hidden bg-slate-100 dark:bg-[#1b1b1d] relative rounded-lg border border-slate-200 dark:border-[#353437] flex items-center justify-center">
+            <span class="material-symbols-outlined text-3xl text-slate-400 dark:text-gray-500 group-hover:text-[#d4a800] dark:group-hover:text-[#FBE830] transition-colors" style="font-variation-settings: 'FILL' 0, 'wght' 300;">{member.icon}</span>
+          </div>
+
+          <div class="text-center mb-6">
+            <h3 class="font-headline text-2xl font-bold tracking-tight text-black dark:text-white">{member.name}</h3>
+            <p class="text-slate-500 dark:text-gray-400 text-[10px] font-semibold uppercase tracking-widest mt-1">{member.role}</p>
+          </div>
+
+          <div class="pt-6 border-t border-slate-100 dark:border-[#353437]">
+            <h4 class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-gray-500 mb-3">Focus & Contributions</h4>
+            <p class="text-sm leading-relaxed text-slate-500 dark:text-gray-400 font-light">{member.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-24 md:py-32 bg-slate-50 dark:bg-[#0e0e10] relative overflow-hidden border-y border-slate-100 dark:border-[#353437]">
+    <div class="max-w-screen-2xl mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-8">
+      <div>
+        <h2 class="font-headline text-3xl md:text-4xl lg:text-5xl font-extralight tracking-tighter text-black dark:text-white leading-tight">
+          Intellectual rigor meets<br/>
+          <span class="font-extrabold border-b-8 border-[#FBE830]">visual breathing space.</span>
+        </h2>
+      </div>
+      <div class="flex gap-4">
+        <a href="/analysis/" class="bg-white dark:bg-[#1b1b1d] border border-black dark:border-[#353437] text-black dark:text-white px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-black hover:text-white dark:hover:bg-[#FBE830] dark:hover:text-black transition-all duration-300 inline-block">
+          주간 분석
+        </a>
+        <a href="/proposals/" class="bg-[#FBE830] text-black px-8 py-4 text-xs font-bold uppercase tracking-widest transition-transform duration-150 active:scale-95 shadow-md inline-block">
+          제안 보기
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

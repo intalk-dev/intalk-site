@@ -1,0 +1,123 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const analysisEntries = await getCollection('analysis');
+const proposalEntries = await getCollection('proposals');
+
+const latestAnalysis = analysisEntries
+  .sort((a, b) => (b.data.week ?? 0) - (a.data.week ?? 0))[0];
+
+const skillProposal = proposalEntries.find(p => p.id.includes('스킬'));
+const insightProposal = proposalEntries.find(p => p.id.includes('인사이트') || p.id.includes('봇'));
+---
+
+<Layout title="인톡 — 팀 아카이브">
+  <!-- Hero -->
+  <section class="relative min-h-[100svh] md:min-h-[700px] flex items-center justify-center px-6 md:px-12 overflow-hidden bg-white dark:bg-[#131315]" style="background: radial-gradient(circle at center, rgba(251,232,48,0.05), transparent)">
+    <div class="max-w-4xl mx-auto w-full text-center z-10">
+      <span class="inline-block py-1 px-3 bg-slate-50 dark:bg-[#1b1b1d] text-slate-500 dark:text-gray-400 text-[10px] font-bold tracking-[0.2em] uppercase mb-8 rounded">INTALK Team Archive</span>
+      <h1 class="font-headline text-5xl md:text-7xl font-extrabold text-black dark:text-white leading-[1.05] tracking-tighter mb-8 mx-auto">
+        Execute. Measure.<br/>Iterate.
+      </h1>
+      <p class="font-body text-lg md:text-xl text-slate-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed mb-0">
+        Notion 데일리스크럼에서 AI가 주간 분석 리포트를 생성합니다.
+      </p>
+    </div>
+  </section>
+
+  <!-- Latest Analysis -->
+  {latestAnalysis && (
+    <section class="py-24 md:py-32 px-6 md:px-12 bg-white dark:bg-[#131315]">
+      <div class="max-w-screen-2xl mx-auto">
+        <div class="flex flex-col items-center mb-16 text-center">
+          <h2 class="font-headline text-4xl md:text-5xl font-extrabold text-black dark:text-white tracking-tight mb-4 uppercase">Latest Analysis</h2>
+          <div class="h-1.5 w-24 bg-[#FBE830] mb-6"></div>
+          <a class="text-sm font-bold text-black dark:text-white border-b border-black dark:border-white pb-1 hover:text-slate-600 dark:hover:text-gray-400 transition-colors" href="/analysis/">전체 보기</a>
+        </div>
+        <a href={`/analysis/${latestAnalysis.id}/`} class="block max-w-3xl mx-auto p-8 md:p-12 bg-slate-50 dark:bg-[#1b1b1d] border border-slate-100 dark:border-[#353437] rounded-2xl hover:border-[#FBE830]/30 transition-all group">
+          <div class="flex items-center gap-4 mb-6">
+            <span class="text-[#d4a800] dark:text-[#FBE830] text-[10px] font-bold tracking-widest uppercase">Week {latestAnalysis.data.week}</span>
+            <span class="text-slate-400 dark:text-gray-500 text-xs">{latestAnalysis.data.date}</span>
+            {latestAnalysis.data.active_members && (
+              <span class="text-slate-400 dark:text-gray-500 text-xs">{latestAnalysis.data.active_members}명 참여</span>
+            )}
+          </div>
+          <h3 class="font-headline text-2xl md:text-3xl font-bold text-black dark:text-white mb-4 group-hover:text-[#d4a800] dark:group-hover:text-[#FBE830] transition-colors">
+            {latestAnalysis.id.replace(/_/g, ' ').replace(/Week \d+/, '').trim() || `${latestAnalysis.data.week}주차 분석 리포트`}
+          </h3>
+          <div class="flex flex-wrap gap-2">
+            {latestAnalysis.data.tags?.map((tag: string) => (
+              <span class="text-xs px-2 py-1 bg-white dark:bg-[#2a2a2c] text-slate-500 dark:text-gray-400 rounded">{tag}</span>
+            ))}
+          </div>
+        </a>
+      </div>
+    </section>
+  )}
+
+  <!-- Proposals -->
+  <section class="py-24 md:py-32 px-6 md:px-12 bg-slate-50 dark:bg-[#0e0e10]">
+    <div class="max-w-screen-2xl mx-auto">
+      <div class="flex flex-col items-center mb-16 text-center">
+        <h2 class="font-headline text-4xl md:text-5xl font-extrabold text-black dark:text-white tracking-tight mb-4 uppercase">Proposals</h2>
+        <div class="h-1.5 w-24 bg-[#FBE830] mb-6"></div>
+        <a class="text-sm font-bold text-black dark:text-white border-b border-black dark:border-white pb-1 hover:text-slate-600 dark:hover:text-gray-400 transition-colors" href="/proposals/">전체 보기</a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        {skillProposal && (
+          <a href={`/proposals/${skillProposal.id}/`} class="p-8 bg-white dark:bg-[#1b1b1d] border border-slate-100 dark:border-[#353437] rounded-xl hover:border-[#FBE830]/30 transition-all group block">
+            <div class="w-12 h-12 bg-slate-50 dark:bg-[#2a2a2c] flex items-center justify-center rounded-lg mb-6">
+              <span class="material-symbols-outlined text-black dark:text-white" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+            </div>
+            <h4 class="font-headline text-lg font-bold text-black dark:text-white mb-3 group-hover:text-[#d4a800] dark:group-hover:text-[#FBE830] transition-colors">스킬 제안</h4>
+            <p class="text-slate-500 dark:text-gray-400 text-sm leading-relaxed">{skillProposal.data.preview || '반복 업무 자동화 및 워크플로우 개선 제안'}</p>
+            {skillProposal.data.highlights && (
+              <div class="mt-4 flex flex-wrap gap-2">
+                {skillProposal.data.highlights.slice(0, 2).map((h: string) => (
+                  <span class="text-[10px] px-2 py-1 bg-slate-50 dark:bg-[#2a2a2c] text-slate-500 dark:text-gray-400 rounded">{h}</span>
+                ))}
+              </div>
+            )}
+          </a>
+        )}
+        {insightProposal && (
+          <a href={`/proposals/${insightProposal.id}/`} class="p-8 bg-white dark:bg-[#1b1b1d] border border-slate-100 dark:border-[#353437] rounded-xl hover:border-[#FBE830]/30 transition-all group block">
+            <div class="w-12 h-12 bg-slate-50 dark:bg-[#2a2a2c] flex items-center justify-center rounded-lg mb-6">
+              <span class="material-symbols-outlined text-black dark:text-white" style="font-variation-settings: 'FILL' 1;">psychology</span>
+            </div>
+            <h4 class="font-headline text-lg font-bold text-black dark:text-white mb-3 group-hover:text-[#d4a800] dark:group-hover:text-[#FBE830] transition-colors">봇 인사이트</h4>
+            <p class="text-slate-500 dark:text-gray-400 text-sm leading-relaxed">{insightProposal.data.preview || '프로젝트 아이디어, 멤버별 넥스트 스텝, 미개척 영역'}</p>
+            {insightProposal.data.highlights && (
+              <div class="mt-4 flex flex-wrap gap-2">
+                {insightProposal.data.highlights.slice(0, 2).map((h: string) => (
+                  <span class="text-[10px] px-2 py-1 bg-slate-50 dark:bg-[#2a2a2c] text-slate-500 dark:text-gray-400 rounded">{h}</span>
+                ))}
+              </div>
+            )}
+          </a>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- Floating Toolbar -->
+  <div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-40">
+    <div class="bg-white/70 dark:bg-[#1b1b1d]/70 backdrop-blur-xl border border-slate-200/50 dark:border-[#353437]/50 px-6 py-3 rounded-full shadow-2xl flex items-center gap-6 md:gap-8">
+      <a href="/analysis/" class="flex items-center gap-2 group">
+        <span class="material-symbols-outlined text-slate-400 group-hover:text-black dark:group-hover:text-white transition-colors text-[20px]">analytics</span>
+        <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500 group-hover:text-black dark:group-hover:text-white transition-colors hidden md:inline">Analysis</span>
+      </a>
+      <div class="h-4 w-[1px] bg-slate-200 dark:bg-[#353437]"></div>
+      <a href="/proposals/" class="flex items-center gap-2 group">
+        <span class="material-symbols-outlined text-slate-400 group-hover:text-black dark:group-hover:text-white transition-colors text-[20px]">lightbulb</span>
+        <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500 group-hover:text-black dark:group-hover:text-white transition-colors hidden md:inline">Proposals</span>
+      </a>
+      <div class="h-4 w-[1px] bg-slate-200 dark:bg-[#353437]"></div>
+      <a href="/team/" class="flex items-center gap-2 group">
+        <span class="material-symbols-outlined text-slate-400 group-hover:text-black dark:group-hover:text-white transition-colors text-[20px]">groups</span>
+        <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500 group-hover:text-black dark:group-hover:text-white transition-colors hidden md:inline">Team</span>
+      </a>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,17 @@
+---
+import Article from '../../layouts/Article.astro';
+import '../../styles/global.css';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const proposals = await getCollection('proposals');
+  return proposals.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const title = entry.id.replace(/_/g, ' ');
+---
+<Article title={title} category="Proposal">
+  <Content />
+</Article>
