@@ -12,6 +12,6 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const title = entry.id.replace(/_/g, ' ');
 ---
-<Article title={title} category="AI Analysis" date={entry.data.date || ''}>
+<Article title={title} category="AI Analysis" date={entry.data.generated_at || entry.data.date || ''}>
   <Content />
 </Article>

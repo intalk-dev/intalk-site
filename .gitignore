@@ -20,5 +20,12 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
+# example content
+src/content/gallery/
+src/content/skills/
+src/pages/gallery/
+src/pages/skills/
+
 # jetbrains setting folder
 .idea/
+.vercel
