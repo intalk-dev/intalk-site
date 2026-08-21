@@ -5,7 +5,7 @@ generated_at: "2026-08-21 15:00"
 source: slack
 tags: [주차분석]
 daily_count: 0
-active_members: 5
+active_members: 6
 ---
 
 # W34 주간 분석 리포트
@@ -29,6 +29,7 @@ W34는 TL/BL 회의록(2건)과 Slack 대화(13개 채널, 135건)를 기반으�
 | 해나 | 인사 | 영업콜 기록시트 지원 |
 | 러셀 | 마케터 | 누적 151DB 확보(CPL $10.14) / 상위 3소재 집중도 91.8% 분석 / 신규 5소재 투입·주말 운영 기준 조정 / GTM 랜딩페이지 설치가이드 전달 |
 | 에이미 | 개발자 | 지원사업 3건 제출(글창사·킥스업·AI Connect Vietnam) / 신한 PoC keepalive 인프라 문제 해결 / 미국 진출 MVP v0.3 프로토타이핑(Medicare Compliance Gate) / 신규 GA 영업 14건 콜→5건 연결→1건 회원가입 / B2B 랜딩페이지 3종 후보안 기획 |
+| 딜런 | 데이터 분석가 | 유선 콜 스크립트 공유 |
 
 ---
 
